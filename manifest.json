@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "ChatGPT Speedup",
+  "name": "Unfreeze for ChatGPT",
   "version": "1.0.0",
   "description": "Makes long ChatGPT conversations load instantly by showing recent messages first",
   "icons": {
