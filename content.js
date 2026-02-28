@@ -248,31 +248,6 @@
       currentWindow: windowSize,
     });
 
-    // Send FULL data to service worker
-    const messages = [];
-    for (const [nodeId, node] of Object.entries(data.mapping)) {
-      if (node.message?.content) {
-        messages.push({
-          id: node.message.id,
-          role: node.message.author?.role,
-          content: node.message.content,
-          model: node.message.metadata?.model_slug,
-          create_time: node.message.create_time,
-        });
-      }
-    }
-
-    window.postMessage({
-      source: 'refinery-003',
-      type: 'SYNC_CONVERSATION',
-      data: {
-        conversation_id: data.conversation_id || conversationId,
-        title: data.title,
-        url: window.location.href,
-        messages: messages,
-      }
-    }, '*');
-
     // Truncate for React
     const { truncatedData, messageCount, truncated } = truncateMapping(data, windowSize);
 
