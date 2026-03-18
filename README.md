@@ -1,6 +1,6 @@
 # Unfreeze for ChatGPT
 
-Chrome extension that makes long ChatGPT conversations load instantly.
+Browser extension (Chromium + Firefox) that makes long ChatGPT conversations load instantly.
 
 ## The problem
 
@@ -20,18 +20,28 @@ Unfreeze intercepts the ChatGPT API response and shows only the last 250 message
 ### From Chrome Web Store
 *(Coming soon)*
 
-### From source
+### From source (Chromium: Chrome, Edge, Brave, etc.)
 1. Clone this repo
 2. Go to `chrome://extensions/`
 3. Enable "Developer mode"
 4. Click "Load unpacked" → select this folder
+
+### From source (Firefox, temporary)
+1. Use Firefox 128+ (required for MV3 `MAIN` world content script support)
+2. Clone this repo
+3. Open `about:debugging#/runtime/this-firefox`
+4. Click "Load Temporary Add-on..."
+5. Select this repo's `manifest.json`
+
+Temporary Firefox installs are removed when Firefox restarts. Persistent distribution requires a signed add-on package.
 
 ## Configuration
 
 Default message limit is 250. To change:
 
 1. Open DevTools on any ChatGPT page
-2. Run: `chrome.storage.local.set({ maxMessages: 500 })`
+2. Switch Console context to the extension
+3. Run: `const ext = typeof browser !== 'undefined' ? browser : chrome; ext.storage.local.set({ maxMessages: 500 });`
 
 ## Privacy
 
@@ -39,7 +49,9 @@ No data leaves your browser. No analytics, no tracking, no external servers. See
 
 ## How it works (technical)
 
-The extension patches `window.fetch` at `document_start` to intercept calls to `/backend-api/conversation/[id]`. On first load, it fetches the full conversation, caches it in memory, and returns a truncated version (last N messages) to React. The "Load more" button prepends earlier messages from the cache.
+The extension patches `window.fetch` at `document_start` (MAIN world) to intercept calls to `/backend-api/conversation/[id]`. On first load, it fetches the full conversation, caches it in memory, and returns a truncated version (last N messages) to React. The "Load more" button prepends earlier messages from the cache.
+
+A small isolated-world bridge script is used only to read extension storage and pass `maxMessages` into MAIN world.
 
 Uses [chatgpt-ui.js](https://github.com/inem/chathpt-ui.js) for DOM manipulation.
 

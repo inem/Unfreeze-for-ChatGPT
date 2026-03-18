@@ -11,13 +11,15 @@
   "permissions": [
     "storage"
   ],
+  "browser_specific_settings": {
+    "gecko": {
+      "strict_min_version": "128.0"
+    }
+  },
   "host_permissions": [
     "https://chatgpt.com/*",
     "https://chat.openai.com/*"
   ],
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "matches": [
