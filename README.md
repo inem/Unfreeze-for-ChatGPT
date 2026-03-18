@@ -39,9 +39,7 @@ Temporary Firefox installs are removed when Firefox restarts. Persistent distrib
 
 Default message limit is 250. To change:
 
-1. Open DevTools on any ChatGPT page
-2. Switch Console context to the extension
-3. Run: `const ext = typeof browser !== 'undefined' ? browser : chrome; ext.storage.local.set({ maxMessages: 500 });`
+Click the extension icon in your browser toolbar and set the desired value in the popup.
 
 ## Privacy
 
